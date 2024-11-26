@@ -1,11 +1,14 @@
 <?php
+$host = "mysql-container";  // Nombre del servicio definido en docker-compose.yml
+$user = "root";             // Usuario de MySQL
+$password = "rootpassword"; // Contraseña definida en el docker-compose.yml
+$dbname = "inventario";     // Base de datos definida en el dump SQL
 
-#CONEXION LOCAL
+// Crear conexión
+$cnx = mysqli_connect($host, $user, $password, $dbname);
 
-$cnx = mysqli_connect("localhost","root","","inventario") or die("Error De Conexion");
-
-//CONEXION REMOTA
-
-//$cnx =mysqli_connect("localhost","id14037275_rafael","4qqghSGsykaf]_Cc","id14037275_mercado") or die("La BD No Existe");
-
+// Verificar conexión
+if (!$cnx) {
+    die("Conexión fallida: " . mysqli_connect_error());
+}
 ?>

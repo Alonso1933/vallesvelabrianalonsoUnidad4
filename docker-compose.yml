@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: inventario
+    ports:
+      - "3306:3306"
+    networks:
+      - inventario-network
+
+  php:
+    image: php:8.2-apache
+    container_name: php-container
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    command: >
+      bash -c "docker-php-ext-install mysqli && apache2-foreground"
+    networks:
+      - inventario-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin-container
+    environment:
+      PMA_HOST: mysql-container
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "8081:80"
+    networks:
+      - inventario-network
+
+networks:
+  inventario-network:
+    driver: bridge

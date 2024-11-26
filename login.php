@@ -1,5 +1,5 @@
 <?php
-ob_start() ;
+ob_start();
 ?>
 <?php include'bootstrap.php'; ?>
 
@@ -9,7 +9,7 @@ ob_start() ;
 # Se creao una sesión
 
 # Se manda llamar el archivo de conexión
-require_once 'php/conexion.php';
+require_once './php/conexion.php';
 
 # Se verifica si se presiona el botón llamado iniciar-sesion
 if (isset($_POST['inicia']))
