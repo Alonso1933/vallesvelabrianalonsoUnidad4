@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: mysql-container
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: inventario
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "3306:3306"
     networks:
@@ -20,7 +20,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html
+      APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT}
     command: >
       bash -c "docker-php-ext-install mysqli && apache2-foreground"
     networks:
@@ -30,9 +30,9 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin-container
     environment:
-      PMA_HOST: mysql-container
-      PMA_USER: root
-      PMA_PASSWORD: rootpassword
+      PMA_HOST: ${PMA_HOST}
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
     ports:
       - "8081:80"
     networks:
