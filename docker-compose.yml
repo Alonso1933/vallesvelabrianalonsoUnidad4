@@ -5,7 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: mysql-container
     environment:
-      MYSQL_ROOT_PASSWORD: "rootpassword"
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: inventario
     ports:
       - "3306:3306"
