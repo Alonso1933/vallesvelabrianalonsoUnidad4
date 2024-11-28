@@ -1,12 +1,13 @@
+
 services:
   mysql:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: mysql:8.0
     container_name: mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     networks:
@@ -18,9 +19,13 @@ services:
     volumes:
       - .:/var/www/html
     ports:
-      - "8080:80"
+      - "${PORT}:80"  # Render necesita que uses su variable PORT
     environment:
       APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT}
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     command: >
       bash -c "docker-php-ext-install mysqli && apache2-foreground"
     networks:
@@ -30,9 +35,9 @@ services:
     image: phpmyadmin:latest
     container_name: phpmyadmin-container
     environment:
-      PMA_HOST: ${PMA_HOST}
-      PMA_USER: ${PMA_USER}
-      PMA_PASSWORD: ${PMA_PASSWORD}
+      PMA_HOST: mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "8081:80"
     networks:
